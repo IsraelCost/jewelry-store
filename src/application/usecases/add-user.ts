@@ -1,3 +1,4 @@
+import { ApplicationError } from "../../domain/entities/error";
 import { User } from "../../domain/entities/user";
 import { GetUserRepository, SaveUserRepository } from "../../domain/repositories/user";
 import { AddUserDTO, IAddUser } from "../../domain/usecases/add-user";
@@ -28,7 +29,7 @@ export class AddUser implements IAddUser {
   async add(input: AddUserDTO.Input): Promise<AddUserDTO.Output> {
     this.validate(input)
     let [user] = await this.userRepository.get({ email: input.email })
-    if (user) throw new Error('Usuário já cadastrado')
+    if (user) throw new ApplicationError('Usuário já cadastrado', 400)
     const userId = this.idGenerator.generate()
     const encryptedPassword = this.encrypter.encrypt(input.password)
     user = new User(userId, input.name, input.email, encryptedPassword)

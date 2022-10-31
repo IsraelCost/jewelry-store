@@ -1,3 +1,4 @@
+import { ApplicationError } from "../../domain/entities/error";
 import { Validation } from "../contracts/validation";
 
 export class EmailValidation implements Validation {
@@ -5,8 +6,8 @@ export class EmailValidation implements Validation {
 
   constructor(private readonly fieldName: string) {}
 
-  validate(input: any): Error | void {
+  validate(input: any): ApplicationError | void {
     const isValidEmail = this.REGEX.test(input[this.fieldName])
-    if (!isValidEmail) return new Error('Email inválido')
+    if (!isValidEmail) return new ApplicationError('Email inválido', 400)
   }
 }

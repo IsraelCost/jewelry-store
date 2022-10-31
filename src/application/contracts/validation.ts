@@ -1,3 +1,5 @@
+import { ApplicationError } from "../../domain/entities/error";
+
 export interface Validation {
-  validate: (input: any) => Error | void
+  validate: (input: any) => ApplicationError | void
 }

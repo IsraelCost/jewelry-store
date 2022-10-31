@@ -1,4 +1,5 @@
 import { HttpRequest, HttpResponse } from ".";
+import { ApplicationError } from "../../domain/entities/error";
 import { AddUserDTO, IAddUser } from "../../domain/usecases/add-user";
 import { AuthenticateDTO, IAuthenticate } from "../../domain/usecases/authenticate";
 
@@ -16,9 +17,15 @@ export class AuthController {
         code: 201
       }      
     } catch (error: any) {
+      if (!(error instanceof ApplicationError)) {
+        return {
+          body: { message: 'Server error', name: 'ServerError' },
+          code: 500
+        } as any
+      }
       return {
         body: { message: error.message, name: error.name },
-        code: 400
+        code: error.code
       } as any
     }
   }
@@ -31,9 +38,15 @@ export class AuthController {
         code: 201
       }      
     } catch (error: any) {
+      if (!(error instanceof ApplicationError)) {
+        return {
+          body: { message: 'Server error', name: 'ServerError' },
+          code: 500
+        } as any
+      }
       return {
         body: { message: error.message, name: error.name },
-        code: 400
+        code: error.code
       } as any
     }
   }

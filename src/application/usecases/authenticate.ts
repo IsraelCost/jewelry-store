@@ -1,3 +1,4 @@
+import { ApplicationError } from "../../domain/entities/error";
 import { GetUserRepository } from "../../domain/repositories/user";
 import { AuthenticateDTO, IAuthenticate } from "../../domain/usecases/authenticate";
 import { CryptComparer } from "../contracts/crypt-compare";
@@ -25,9 +26,9 @@ export class Authenticate implements IAuthenticate {
   async authenticate(input: AuthenticateDTO.Input): Promise<AuthenticateDTO.Output> {
     this.validate(input)
     const [user] = await this.userRepository.get({ email: input.email })
-    if (!user) throw new Error('Usuário ou senha inválidos')
+    if (!user) throw new ApplicationError('Usuário ou senha inválidos', 400)
     const validPassword = this.decryptor.compare(user.password, input.password)
-    if (!validPassword) throw new Error('Usuário ou senha inválidos')
+    if (!validPassword) throw new ApplicationError('Usuário ou senha inválidos', 400)
     const jwt = this.jwtGenerator.generate({ name: user.name, email: user.email, profileId: user.profileId })
     const { password, ...dataWithoutPassword } = user
     return {
