@@ -18,6 +18,7 @@ export class AuthController {
       }      
     } catch (error: any) {
       if (!(error instanceof ApplicationError)) {
+        console.log(error)
         return {
           body: { message: 'Server error', name: 'ServerError' },
           code: 500

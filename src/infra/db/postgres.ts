@@ -5,7 +5,7 @@ export class PgAdapter implements Connection {
   pgp: pgp.IDatabase<any, any>
   
   constructor() {
-    this.pgp = pgp()('postgres://postgres:root@localhost:4000/jewelry-store')
+    this.pgp = pgp()('postgres://postgres:root@localhost:4000/postgres')
   }
 
   query(query: string, params: any[]): Promise<any> {

@@ -12,7 +12,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async get(params: Partial<User>): Promise<User[]> {
-    let query = 'select * from users'
+    let query = 'select * from vandal.users'
     if (params.id || params.email || params.name || params.profileId) query += ' where '
     if (params.id) query += 'id=$1 '
     if (params.email) query += 'email=$2 '
@@ -23,7 +23,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async save(user: User): Promise<User> {
-    const data = await this.connection.query('insert into users (id, email, password, name, profile_id) values ($1, $2, $3, $4, $5) returning *', [user.id, user.email, user.password, user.name, user.profileId])
+    const data = await this.connection.query('insert into vandal.users (id, email, password, name, profile_id) values ($1, $2, $3, $4, $5) returning *', [user.id, user.email, user.password, user.name, user.profileId])
     return this.toModel(data[0])
   }
 }

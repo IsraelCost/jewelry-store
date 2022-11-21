@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   postgresql:
-    image: 'postgres'
+    build: ./db
     environment:
       - POSTGRES_PASSWORD=root
     volumes:
@@ -9,7 +9,7 @@ services:
     ports:
       - 4000:5432
     networks:
-      - jewelry-store
+      - default
   pgadmin:
     image: 'dpage/pgadmin4'
     environment:
@@ -20,9 +20,9 @@ services:
     ports:
       - 5000:80
     networks:
-      - jewelry-store
+      - default
 networks:
-  jewelry-store:
+  default:
     driver: bridge
 volumes:
   db: {}
